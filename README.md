@@ -8,8 +8,6 @@ PucMigos é uma aplicação estilo Tinder, criada especificamente para a comunid
 - **Filtros**: Filtrar por curso, interesses e muito mais.
 - **+18**: Permitido apenas para maiores de 18 anos.
 
-## Como usar
-
 ## Alunos integrantes da equipe
 
 * Diego Cheib Hirsch
