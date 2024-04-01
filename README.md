@@ -1,19 +1,32 @@
-# Nome do projeto
+## PucMigos
 
-Escreva um ou dois parágrafo resumindo o objetivo do seu projeto.
+PucMigos é uma aplicação estilo Tinder, criada especificamente para a comunidade da PUC Minas. Nosso objetivo é facilitar o encontro e a conexão entre pessoas da universidade.
+
+## Funcionalidades
+
+- **Match**: Encontre pessoas que compartilham dos mesmos interesses que você.
+- **Filtros**: Filtrar por curso, interesses e muito mais.
+- **+18**: Permitido apenas para maiores de 18 anos.
+
+## Como usar
 
 ## Alunos integrantes da equipe
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Diego Cheib Hirsch
+* Arthur Ribeiro Amaral Flores
+* Caua Paduani Peixoto
+* Caio Mariás Faleiro Santos
+* Marco Henrique Coelho Rocha
 
 ## Professores responsáveis
 
-* Nome completo do professor 1
+* Wesley Dias Maciel
 * Nome completo do professor 2
 
 ## Instruções de utilização
 
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+1. Entre no Site.
+2. Crie uma conta usando seu email da PUC Minas.
+3. Complete seu perfil com informações relevantes.
+4. Comece a deslizar e encontre seus PucMigos!
+
