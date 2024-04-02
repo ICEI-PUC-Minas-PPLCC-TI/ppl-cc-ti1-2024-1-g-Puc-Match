@@ -1,18 +1,20 @@
-# Nome do projeto
+#PUC-match
+Puc-Match é a plataforma definitiva para os estudantes da Pontifícia Universidade Católica (PUC) encontrarem seus pares perfeitos. Se você está procurando por amizade, romance ou até mesmo uma parceria de estudo, nós temos tudo o que você precisa para fazer conexões significativas dentro da comunidade acadêmica da PUC.
 
-Escreva um ou dois parágrafo resumindo o objetivo do seu projeto.
 
 ## Alunos integrantes da equipe
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Cauã Paduani Peixoto
+* Marco Henrique Coelho Rocha
+* Caio Marias Faleiro
+* Arthur Ribeiro Amaral
+* Diego Cheib Hirsch
+* Lucas Castro Nominato
 
 ## Professores responsáveis
 
-* Nome completo do professor 1
-* Nome completo do professor 2
+* Wesley
+* Gustavo
 
 ## Instruções de utilização
 
