@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+
+:root {
+    --main-bg-color: #d9d9d9;
+    --main-font-color: #000000;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+}
+
+html {
+    width: 100%;
+    height: auto;
+    background-color: var(--main-bg-color);
+    font-family: sans-serif, "Roboto";
+}
+
+body {
+    background-color: var(--main-bg-color);
+
+    header {
+
+        .navbar {
+            font-family: "Roboto", sans-serif;
+
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            #navbarNav {
+
+                .navbar-nav {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+
+                    #left-items {
+                        display: flex;
+                        align-items: center;
+
+                        .nav-item {
+                            .nav-button {
+                                border: none;
+                                background-color: transparent;
+
+                                .nav-link {
+                                    color: var(--main-font-color);
+                                    font-size: 1.5rem;
+                                    margin-left: 2rem;
+                                    transition: 0.3s;
+                                &:hover{
+                                    transform: translate(2px, -2px);
+                                    opacity: 0.7;
+                                }
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    #right-items {
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+
+                        .nav-item {
+                            .nav-button {
+                                border: none;
+                                background-color: transparent;
+
+                                .nav-link {
+                                    font-size: 1.5rem;
+                                    color: var(--main-font-color);
+                                    transition: 0.3s;
+                                    &:hover{
+                                        transform: translate(2px, -2px);
+                                        opacity: 0.7;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    main {
+        .container {
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            div {
+                .container-images{
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    align-content: center;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    margin-top: 6%;
+                    .figure{
+                        margin: 0 2rem 0 2rem;
+                        width: 294px;
+                        .figure-img{
+                            height: 440px;
+                            margin: 0;
+                            border-radius: 4px 4px 0 0 !important;
+                        }
+                        #mid-img{
+                            height: 480px;
+                        }
+                        .figure-caption{
+                            padding: 4px;
+                            font-size: 32px;
+                            display: flex;
+                            justify-content: space-evenly;
+                            background-color: white;
+                            border-radius: 0 0 4px 4px;
+                            .ph-heart{
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border: 2px solid #d9d9d9;
+                                padding: 8px;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%; 
+                                text-align: center;
+                                line-height: 20px;
+                                color: lightgreen; 
+                                background-color: white;
+                            }
+                            .ph-x{
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border: 2px solid #d9d9d9;
+                                padding: 8px;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%; 
+                                text-align: center;
+                                line-height: 20px;
+                                color: red;
+                                font-weight: 700;
+                                background-color: white;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+    }
+}
