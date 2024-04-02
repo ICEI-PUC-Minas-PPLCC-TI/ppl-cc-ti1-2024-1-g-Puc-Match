@@ -7,7 +7,7 @@ Puc-Match é a plataforma definitiva para os estudantes da Pontifícia Universid
 * Cauã Paduani Peixoto
 * Marco Henrique Coelho Rocha
 * Caio Marias Faleiro
-* Arthur Ribeiro Amaral
+* Arthur Ribeiro Amaral Flores
 * Diego Cheib Hirsch
 * Lucas Castro Nominato
 
