@@ -8,6 +8,7 @@ from django.contrib.auth.models import (
 )
 from datetime import datetime, date
 from django.utils import timezone
+from django.contrib import admin
 # Create your models here.
 class AccountManager(BaseUserManager):
     def create_user(    
@@ -58,6 +59,8 @@ class AccountManager(BaseUserManager):
     
 class Matricula(models.Model):
     matricula = models.CharField(max_length=9, unique=True)
+    def __str__(self) -> str:
+        return self.matricula
 
 class Usuarios(AbstractBaseUser, PermissionsMixin):
 
@@ -80,11 +83,10 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
             related_name="usuarios_user_permissions",
             related_query_name="user",
         )
-    id = models.AutoField(primary_key=True)  # Campo ID
     email = models.EmailField(max_length=100, unique=True) # Campo Email
     nome = models.CharField(max_length=50)  # Campo Nome
     cpf = models.CharField(max_length=16, unique=True)  # Campo CPF
-    matricula = models.ForeignKey(Matricula, on_delete=models.CASCADE)  # Campo Matricula
+    matricula = models.OneToOneField(Matricula, on_delete=models.CASCADE, unique=True)  # Campo Matricula
     curso = models.CharField(max_length=50)  # Campo Curso
     data_de_nascimento = models.DateField(blank=False, null=True)  # Campo Data de Nascimento
     data_criacao = models.DateTimeField(auto_now_add=True)  # Campo Data de Criação
@@ -104,10 +106,15 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["nome", "cpf", "matricula", "curso" ,"data_nascimento"]
+    REQUIRED_FIELDS = ["nome", "cpf", "matricula", "curso","data_de_nascimento"]
+    fields = ["id","email", "nome", "cpf", "matricula", "curso","data_de_nascimento"]
 
     def __str__(self):
-        return f"{self.nome}"
+        return self.nome
+
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
@@ -127,4 +134,3 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
                 < (self.data_nascimento.month, self.data_nascimento.day)
             )
         )
-    
