@@ -1,0 +1,110 @@
+body{
+    margin:0;
+}
+.main-cadastro{
+   width: 100vw;
+   height: 100vh;
+   background: #201b2c;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.left{
+    width: 50vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.left-image{
+width: 25vw;
+}
+.left > h1 {
+    color: #77ffc0;
+    font-size: 3vw;
+}
+.card-login{
+    width: 55%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 25px;
+    background: #2f2841;
+    border-radius: 20px;
+    box-shadow: 0px 10px 40px #000;
+}
+
+.right{
+    width: 50vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.card-login > h1{
+   color: #00ff88;
+   font-weight: 800;
+   margin: 0;
+}
+.textfield{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 10px 0px; 
+    width: 100%;
+}
+.textfield > input{
+    width: 100%;
+    border:none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #514869;
+    color: #f0ffffde;
+    font-size: 12pt;
+    box-shadow: 0px 10px 40px #000;
+    outline: none;
+    box-sizing: border-box;
+}
+.textfield > label{
+    color: #f0ffffde;
+    margin-bottom: 10px;
+
+}
+.textfield > input::placeholder{
+    color: #f0ffff94; 
+}
+.btn-cadastro{
+    width: 100%;
+    padding: 16px 0px;
+    margin: 40px 0px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background: #00ff88;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0px 10px 40px #00ff8052;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.7;
+    }
+}
+@media only screen and (max-width:950px){
+    .card-login{
+        width: 85%;
+    }
+}
+@media only screen and (max-width:600px){
+    .main-cadastro{
+        flex-direction: column;
+    }
+    .left > h1{
+        display: none;
+    }
+
+}
+
