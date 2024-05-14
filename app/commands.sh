@@ -7,12 +7,12 @@ source venv/bin/activate
 cd ti-1-ppl-cc-m-20241-3-ti-1-ppl-cc-m-20241-3/app
 
 # Instala todas dependências do projeto
-pip install -r requirements.txt
+#pip install -r requirements.txt
 
 # Executa as migrações
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput --clear
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
 # Inicia o servidor Django
-python manage.py runserver 
+python manage.py runserver
