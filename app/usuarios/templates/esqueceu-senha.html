@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block title%} Esqueceu-Senha {% endblock %}
+    
+{% load static %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Conta</title>
+    <link rel="stylesheet" href="{% static 'usuarios/esqueceu-senha.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Configurações da Conta</h1>
+        <form action="#" method="POST">
+            <label for="password">Nova Senha:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirmar Nova Senha:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <label for="notifications">Notificações por E-mail:</label>
+            <input type="checkbox" id="notifications" name="notifications">
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

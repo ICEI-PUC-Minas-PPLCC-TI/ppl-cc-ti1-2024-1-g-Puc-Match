@@ -2,3 +2,10 @@ desktop.ini
 Icon?
 .DS_Store
 .vscode
+__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+db.sqlite3-journal
+/app/data/static
+staticfiles/
