@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital@0;1&display=swap');
+
+
 body{
     margin:0;
+    font-family: 'Noto Sans',sans-serif;
 }
 .main-cadastro{
    width: 100vw;
@@ -75,23 +79,35 @@ width: 25vw;
 }
 .textfield > input::placeholder{
     color: #f0ffff94; 
-}
-.btn-cadastro{
-    width: 100%;
-    padding: 16px 0px;
-    margin: 40px 0px;
-    border: none;
-    border-radius: 8px;
-    outline: none;
-    background: #00ff88;
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 1px;
-    box-shadow: 0px 10px 40px #00ff8052;
-    cursor: pointer;
-    &:hover{
-        opacity: 0.7;
+}   
+.card-login{
+    div{
+        width: 85%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        button{
+            width: 100%;
+            padding: 16px 0px;
+            margin: 40px 0px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background: #00ff88;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0px 10px 40px #00ff8052;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.7;
+            }
+        }
     }
+}
+p {
+    color: red;
 }
 @media only screen and (max-width:950px){
     .card-login{
