@@ -16,26 +16,32 @@ class AccountManager(BaseUserManager):
         email,
         nome,
         cpf,
-        data_nascimento,
-        data_criacao,
+        data_de_nascimento,
+        matricula,
+        curso,  # add this
         password=None,
     ):
-        # User managemnt
+        # User management
         if not email:
             raise ValueError("Email Obrigatorio.")
         if not nome:                                                                                                                                                                     
             raise ValueError("Nome Obrigatorio.")
-        if not data_nascimento:
+        if not data_de_nascimento:
             raise ValueError("Data de Nascimento Obrigatoria.")
+        if not matricula:
+            raise ValueError("Matricula Obrigatoria.")
+        if not curso:  # add this
+            raise ValueError("Curso Obrigatorio.")
 
-       # User object creation
+        # User object creation
         user = self.model(
             email=self.normalize_email(email),
             nome=nome,
             password=password,
-            data_nascimento=data_nascimento,
-            data_criacao=data_criacao,
+            data_de_nascimento=data_de_nascimento,
             cpf=cpf,
+            matricula=matricula,
+            curso=curso,  # add this
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -90,7 +96,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     curso = models.CharField(max_length=50)  # Campo Curso
     data_de_nascimento = models.DateField(blank=False, null=True)  # Campo Data de Nascimento
     data_criacao = models.DateTimeField(auto_now_add=True)  # Campo Data de Criação
-
+    password = models.CharField(max_length=50)  # Campo Senha
     # Tags
     is_verified = models.BooleanField(default=False)  # Campo Verificado
 
