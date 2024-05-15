@@ -10,16 +10,23 @@
             <img src="{% static 'usuarios/imagemanimada.svg' %}" class="left-login-image" alt="imagem">
         </div>
         <div class="right-login">
-            <div class="card-login">
-                <div class="textfield">
-                    <label for="usuário">Usuário</label>
-                    <input type="text" name="Usuário" placeholder="Usuário">
-                </div>
-                <div class="textfield">
-                    <label for="Senha">Senha</label>
-                    <input type="password" name="Senha" placeholder="Senha">
-                </div>
-                <button class="btn-login">login</button>
+            <form action="{% url 'usuarios:login' %}" method="post">
+                {% csrf_token %}
+                <div class="card-login">
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% endif %}
+                    <div class="textfield">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" placeholder="Email">
+                    </div>
+                    <div class="textfield">
+                        <label for="Senha">Senha</label>
+                        <input type="password" name="password" placeholder="Senha">
+                    </div>
+                    <button class="btn-login" >login</button>
+                </form>
+            </div>
             </div>
         </div>
     </div>
