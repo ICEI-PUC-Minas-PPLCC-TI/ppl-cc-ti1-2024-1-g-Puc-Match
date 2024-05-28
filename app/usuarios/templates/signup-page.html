@@ -7,33 +7,151 @@
 
 
 {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro</title>
+    <!-- Adicione aqui suas referências a CSS e outros recursos -->
+</head>
 <body>
     <div class="main-cadastro">
         <div class="left"> 
             <h1>Faça seu cadastro na Puc-Match<br>E junte-se a milhares de alunos</h1>
         </div>
         <div class="right">
-            <div class="card-login">
-                <div class="textfield">
-                    <label for="email">Email</label>
-                    <input type="text" name="usuario" placeholder="email"
-                </div>
-                <div class="textfield">
-                <label for="nome">Nome</label>
-                     <input type ="text" name="nome" placeholder="nome"
-                 </div>
+            <form id="cadastroForm" class="card-login" method="post" action="{% url 'usuarios:signup' %}">
+                {% csrf_token %}
+                {% if error %}
+                    <p>{{ error }}</p>
+                {% endif %}
+                <div id="primeiraParte">
                     <div class="textfield">
-                     <label for="senha">Senha</label>
-                     <input type="password" name="senha" placeholder="senha"
-                     </div>
-                     <div class="textfield">
-                         <label for="confirmar">Confirmar senha</label>
-                         <input type="password" name="confirmar" placeholder="confirmar senha"
-                     </div>
-             <button class="btn-cadastro">Concluir</button>
+                        <label for="email">Email</label>
+                        <input type="text" name="email" placeholder="email" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" placeholder="nome" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" placeholder="senha" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="confirmar">Confirmar senha</label>
+                        <input type="password" name="confirmar_senha" placeholder="confirmar senha" required>
+                    </div>
+                    <button type="button" id="nextBtn">Concluir</button>
+                </div>
+                <div id="segundaParte" style="display: none;">
+                    <div class="textfield">
+                        <label for="cpf">CPF</label>
+                        <input type="text" name="cpf" placeholder="cpf" maxlength="14" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="data_nascimento">Data de Nascimento</label>
+                        <input type="date" name="data_de_nascimento">
+                    </div>
+                    <div class="textfield">
+                        <label for="matricula">Matrícula</label>
+                        <input type="text" name="matricula" placeholder="matricula" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="curso">Curso</label>
+                        <input type="text" name="curso" placeholder="curso" required>
+                    </div>
+                    <button type="submit" class="btn-cadastro-final">Finalizar Cadastro</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
 </html>
+<script>
+function validarEmail(emailFormulario) {
+    let validarRegExNoEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (emailFormulario.match(validarRegExNoEmail)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function validarCPF(cpfFormulario) {
+    let validarRegExNoCPF = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
+    if (cpfFormulario.match(validarRegExNoCPF)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function validarIdade(dataNascimento) {
+    let dataAtual = new Date();
+    let dataNasc = new Date(dataNascimento);
+    let idade = dataAtual.getFullYear() - dataNasc.getFullYear();
+    let m = dataAtual.getMonth() - dataNasc.getMonth();
+    if (m < 0 || (m === 0 && dataAtual.getDate() < dataNasc.getDate())) {
+        idade--;
+    }
+    return idade >= 18;
+}
+// Ajuste do Cpf na tela de front 
+document.getElementsByName('cpf')[0].addEventListener('input', function(event) {
+    let cpf = event.target.value;
+    cpf = cpf.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
+    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2"); // Adiciona um ponto depois do terceiro dígito
+    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2"); // Adiciona um ponto depois do sexto dígito
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Adiciona um hífen depois do nono dígito
+    event.target.value = cpf;
+});
+
+document.getElementById('nextBtn').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var email = document.getElementsByName('email')[0];
+    var nome = document.getElementsByName('nome')[0];
+    var senha = document.getElementsByName('senha')[0];
+    var confirmar_senha = document.getElementsByName('confirmar_senha')[0];
+
+    email.style.border = '';
+    nome.style.border = '';
+    senha.style.border = '';
+    confirmar_senha.style.border = '';
+
+    if (nome.value && validarEmail(email.value) && senha.value && confirmar_senha.value && senha.value === confirmar_senha.value) {
+        document.getElementById('primeiraParte').style.display = 'none';
+
+        document.getElementById('segundaParte').style.display = 'flex';
+    } 
+    else if (senha.value !== confirmar_senha.value) {
+        senha.style.border = '1px solid red';
+        confirmar_senha.style.border = '1px solid red';
+    }
+    
+    else {
+        if (!validarEmail(email.value)) email.style.border = '1px solid red';
+        if (!nome.value) nome.style.border = '1px solid red';
+        if (!senha.value) senha.style.border = '1px solid red';
+        if (!confirmar_senha.value) confirmar_senha.style.border = '1px solid red';
+    }
+});
+
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var cpf = document.getElementsByName('cpf')[0];
+    var dataNascimento = document.getElementsByName('data_nascimento')[0];
+
+    cpf.style.border = '';
+    dataNascimento.style.border = '';
+
+    if (validarCPF(cpf.value) && maiorDe18Anos(dataNascimento.value)) {
+        document.getElementById('form').submit();
+    } else {
+        // Se o CPF não é válido ou o usuário não é maior de 18 anos, muda a borda para vermelho
+        if (!validarCPF(cpf.value)) cpf.style.border = '1px solid red';
+        if (!validarIdade(dataNascimento.value)) dataNascimento.style.border = '1px solid red';
+    }
+});
+</script>
 {% endblock %}
 
