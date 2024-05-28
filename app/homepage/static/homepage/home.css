@@ -118,6 +118,9 @@ body {
                         #mid-img{
                             height: 480px;
                         }
+                        .blur-image{
+                            filter: blur(3px);
+                        }
                         .figure-caption{
                             padding: 4px;
                             font-size: 32px;

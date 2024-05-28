@@ -48,13 +48,14 @@ class AccountManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, nome, cpf, data_nascimento, data_criacao, password):
+    def create_superuser(self, email, nome, cpf, matricula, curso, data_de_nascimento, password):
         user = self.create_user(
-            email,
-            nome,
-            cpf,
-            data_nascimento,
-            data_criacao,
+            email=email,
+            nome=nome,
+            cpf=cpf,
+            data_de_nascimento=data_de_nascimento,
+            matricula=matricula,
+            curso=curso,
             password=password,
         )
         user.is_admin = True
@@ -63,10 +64,6 @@ class AccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-class Matricula(models.Model):
-    matricula = models.CharField(max_length=9, unique=True)
-    def __str__(self) -> str:
-        return self.matricula
 
 class Usuarios(AbstractBaseUser, PermissionsMixin):
 
@@ -92,7 +89,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True) # Campo Email
     nome = models.CharField(max_length=50)  # Campo Nome
     cpf = models.CharField(max_length=16, unique=True)  # Campo CPF
-    matricula = models.OneToOneField(Matricula, on_delete=models.CASCADE, unique=True)  # Campo Matricula
+    matricula = models.IntegerField(max_length=9, unique=True)
     curso = models.CharField(max_length=50)  # Campo Curso
     data_de_nascimento = models.DateField(blank=False, null=True)  # Campo Data de Nascimento
     data_criacao = models.DateTimeField(auto_now_add=True)  # Campo Data de Criação
@@ -112,8 +109,8 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["nome", "cpf", "matricula", "curso","data_de_nascimento"]
-    fields = ["id","email", "nome", "cpf", "matricula", "curso","data_de_nascimento"]
+    REQUIRED_FIELDS = ["nome", "cpf", "matricula", "curso", "data_de_nascimento"]
+    fields = ["id","email", "nome", "cpf", "matricula", "curso", "data_de_nascimento"]
 
     def __str__(self):
         return self.nome
