@@ -31,6 +31,7 @@ AUTH_USER_MODEL = 'usuarios.Usuarios'
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'PucMigos.urls'
 
+DEBUG = True
 
 
 TEMPLATES = [
