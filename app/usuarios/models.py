@@ -89,7 +89,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True) # Campo Email
     nome = models.CharField(max_length=50)  # Campo Nome
     cpf = models.CharField(max_length=16, unique=True)  # Campo CPF
-    matricula = models.IntegerField(max_length=9, unique=True)
+    matricula = models.IntegerField(unique=True)
     curso = models.CharField(max_length=50)  # Campo Curso
     data_de_nascimento = models.DateField(blank=False, null=True)  # Campo Data de Nascimento
     data_criacao = models.DateTimeField(auto_now_add=True)  # Campo Data de Criação
