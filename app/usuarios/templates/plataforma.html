@@ -1,30 +1,38 @@
-
+{% load static %} 
+{% block static %}
+<link rel="stylesheet" href="{% static 'usuarios/plataforma.css' %}"> 
+{% endblock %}
+{% block content %}
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">PucMigos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <div id="left-items">
-                            <li class="nav-item">
-                                <button class="nav-button">
-                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                                </button>
-                            </li>
+                            <img class="navbar-brand" src="{% static 'usuarios/logo_1.png' %}" alt="">
+                                <li class="nav-item">
+                                    <button class="nav-button">
+                                        <a class="nav-link" href="{% url 'homepage:home' %}">Home</a>
+                                    </button>
+                                </li>
                         </div>
-                            <li class="nav-item">
-                                <button class="nav-button">
-                                    <a class="nav-link" href="{% url 'usuarios:logout' %}">logout</a>
-                                </button>
-                            </li>
+                            <div id="right-items">
+                                <li class="nav-item">
+                                    <button class="nav-button">
+                                        <a class="nav-link" href="{% url 'usuarios:logout' %}">Logout</a>
+                                    </button>
+                                </li>
+                            </div>
                     </ul>
                 </div>
             </div>
         </nav>
+    </header>
 </body>
 </html>
+{% endblock %}

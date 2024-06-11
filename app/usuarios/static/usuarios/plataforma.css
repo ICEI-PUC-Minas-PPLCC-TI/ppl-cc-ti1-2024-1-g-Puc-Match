@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+
+:root {
+    --main-bg-color: #201b2c;
+    --main-font-color: #77ffc0;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+}
+
+html {
+    width: 100%;
+    height: auto;
+    background-color: var(--main-bg-color);
+    font-family: sans-serif, "Roboto";
+}
+
+body {
+    background-color: var(--main-bg-color);
+
+    header {
+
+        .navbar {
+            font-family: "Roboto", sans-serif;
+
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            #navbarNav {
+
+                .navbar-nav {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    list-style: none;
+                    #left-items {
+                        display: flex;
+                        align-items: center;
+                        margin: 10px;
+                        .navbar-brand{
+                            width: 60px;
+                            height: auto;
+                            padding: 1rem;
+                        }
+                        .nav-item {
+                            .nav-button {
+                                border: none;
+                                background-color: transparent;
+                                .nav-link {
+                                    text-decoration: none;
+                                    color: var(--main-font-color);
+                                    font-size: 1.5rem;
+                                    margin-left: 2rem;
+                                    transition: 0.3s;
+                                &:hover{
+                                    transform: translate(2px, -2px);
+                                    opacity: 0.7;
+                                }
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    #right-items {
+                        display: flex;
+                        align-items: center;
+                        justify-content: end;
+
+                        .nav-item {
+                            border-radius: 15px;
+                            background-color: #514869;
+                            margin: 10px;
+                            .nav-button {
+                                background-color: #514869;
+                                margin: 7px;
+                                border: none;
+                                border-radius: 32px;
+                                outline: none;
+                                letter-spacing: 1px;
+                                cursor: pointer;
+                                .nav-link {
+                                    background-color: #514869;
+                                    text-decoration: none;
+                                    color: var(--main-font-color);
+                                    font-size: 1.5rem;
+                                    transition: 0.3s;
+                                    &:hover{
+                                        transform: translate(2px, -2px);
+                                        opacity: 0.7;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
