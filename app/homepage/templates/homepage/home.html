@@ -14,36 +14,36 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">PucMigos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <div id="left-items">
+                            <img class="navbar-brand" href="#" src="{% static 'homepage/logo_1.png' %}">
                             <li class="nav-item">
                                 <button class="nav-button">
                                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                                 </button>
                             </li>
                         </div>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <button class="nav-button">
-                                    <a class="nav-link" href="{% url 'usuarios:plataforma' %}">Plataforma</a>
-                                </button>
-                            </li>
-                        {% else %}
-                            <div id="right-items">
+                        <div id="right-items">
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <button class="nav-button">
+                                            <a class="nav-link" href="{% url 'usuarios:plataforma' %}">Plataforma</a>
+                                        </button>
+                                    </li>
+                                {% else %}
                                 <li class="nav-item">
                                     <button class="nav-button">
-                                        <a class="nav-link" href="{% url 'usuarios:login' %}">Login</a>
+                                        <a class="nav-link login-button" href="{% url 'usuarios:login' %}">Login</a>
                                     </button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-button">
-                                        <a class="nav-link" href="{% url 'usuarios:signup' %}">Signup</a>
+                                        <a class="nav-link signup-button" href="{% url 'usuarios:signup' %}">Signup</a>
                                     </button>
                                 </li>
                             </div>
@@ -57,7 +57,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1>Bem vindo a PucMigos</h1>
+                    <h1>Bem vindo ao PucMatch</h1>
                 </div>
             </div>
             <div class="row">
@@ -70,25 +70,30 @@
                     <button class="btn btn-primary">Comece agora</button>
                 </div>
             </div>
-            <div class="">
+            <div class="container-image">
                 <div class="container-images">
                     <figure class="figure">
-                        <img src="{% static 'homepage/profile-image.jpg'%}" class="figure-img img-fluid rounded blur-image" alt="...">
+                        <img src="{% static 'homepage/profile-image.png'%}" class="figure-img img-fluid rounded blur-image" alt="...">
                         <figcaption class="figure-caption">
                                 <i class="ph ph-heart"></i>
                                 <i class="ph ph-x"></i>
                         </figcaption>
                       </figure>
                       <figure class="figure">
-                        <img src="{% static 'homepage/profile-image.jpg'%}" class="figure-img img-fluid rounded" alt="..." id="mid-img">
+                        <img src="{% static 'homepage/profile-image.png'%}" class="figure-img img-fluid rounded" alt="..." id="mid-img">
+                        <div class="centered-text">
+                            <div class="blur-background">
+                                <h4>Diego Cheib</h4>
+                                <p>21 anos</p>
+                            </div>
+                        </div>
                         <figcaption class="figure-caption">
                                 <i class="ph ph-heart"></i>
                                 <i class="ph ph-x"></i>
-
                         </figcaption>
                       </figure>
                       <figure class="figure">
-                        <img src="{% static 'homepage/profile-image.jpg'%}" class="figure-img img-fluid rounded blur-image" alt="...">
+                        <img src="{% static 'homepage/profile-image.png'%}" class="figure-img img-fluid rounded blur-image" alt="...">
                         <figcaption class="figure-caption">
                                 <i class="ph ph-heart"></i>
                                 <i class="ph ph-x"></i>

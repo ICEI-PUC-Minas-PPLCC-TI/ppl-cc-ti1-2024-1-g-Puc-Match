@@ -2,8 +2,8 @@
 
 
 :root {
-    --main-bg-color: #d9d9d9;
-    --main-font-color: #000000;
+    --main-bg-color: #201b2c;
+    --main-font-color: #77ffc0;
 
 }
 
@@ -42,7 +42,11 @@ body {
                     #left-items {
                         display: flex;
                         align-items: center;
-
+                        .navbar-brand{
+                            width: 100px;
+                            height: auto;
+                            padding: 1rem;
+                        }
                         .nav-item {
                             .nav-button {
                                 border: none;
@@ -70,12 +74,19 @@ body {
 
                         .nav-item {
                             .nav-button {
+                                margin: 7px;
                                 border: none;
-                                background-color: transparent;
-
+                                border-radius: 32px;
+                                outline: none;
+                                text-transform: uppercase;
+                                font-weight: 600;
+                                letter-spacing: 1px;
+                                background: #00ff88;
+                                cursor: pointer;
+                                box-shadow: 0px 10px 40px -12px #00ff8052;
                                 .nav-link {
+                                    color: #2b134b;
                                     font-size: 1.5rem;
-                                    color: var(--main-font-color);
                                     transition: 0.3s;
                                     &:hover{
                                         transform: translate(2px, -2px);
@@ -98,7 +109,17 @@ body {
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            div {
+            div{
+                div{
+                    h1{
+                        color: var(--main-font-color);
+                    }
+                    P{
+                        color: var(--main-font-color);
+                    }
+                }
+            }
+            .container-image {
                 .container-images{
                     display: flex;
                     justify-content: space-around;
@@ -108,8 +129,32 @@ body {
                     flex-wrap: wrap;
                     margin-top: 6%;
                     .figure{
+                        position: relative;
                         margin: 0 2rem 0 2rem;
                         width: 294px;
+                        .centered-text{
+                            position: absolute;
+                            color: white;
+                            font-size: 18px;
+                            font-weight: 500;
+                            top: 70%;
+                            
+                            text-align: center;
+                            background-color: transparent;
+                            .blur-background{
+                                border-radius: 32px;
+                                padding: 0.7rem;
+                                background-color: transparent;
+                                backdrop-filter: blur(3px);
+                                h4{
+                                    background-color: transparent;
+                                }
+                                p{
+                                    background-color: transparent;
+                                        
+                                }
+                            }
+                        }
                         .figure-img{
                             height: 440px;
                             margin: 0;
