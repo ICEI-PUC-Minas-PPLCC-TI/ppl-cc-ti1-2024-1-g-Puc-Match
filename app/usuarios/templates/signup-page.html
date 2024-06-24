@@ -27,23 +27,46 @@
                 <div id="primeiraParte">
                     <div class="textfield">
                         <label for="email">Email</label>
-                        <input type="text" name="email" placeholder="email" required>
+                        <input type="text" name="email" placeholder="Email" required>
                     </div>
                     <div class="textfield">
                         <label for="nome">Nome</label>
-                        <input type="text" name="nome" placeholder="nome" required>
+                        <input type="text" name="nome" placeholder="Nome" required>
                     </div>
                     <div class="textfield">
                         <label for="senha">Senha</label>
-                        <input type="password" name="senha" placeholder="senha" required>
+                        <input type="password" name="senha" placeholder="Senha" required>
                     </div>
                     <div class="textfield">
                         <label for="confirmar">Confirmar senha</label>
-                        <input type="password" name="confirmar_senha" placeholder="confirmar senha" required>
+                        <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
                     </div>
-                    <button type="button" id="nextBtn">Concluir</button>
+                    <button type="button" id="nextBtn">Próximo</button>
                 </div>
                 <div id="segundaParte" style="display: none;">
+                    <div class="textfield">
+                        <label for="cep">CEP</label>
+                        <input type="text" name="cep" placeholder="CEP" maxlength="9" required id="cep">
+                    </div>
+                    <div class="textfield">
+                        <label for="estado">Estado</label>
+                        <input type="text" name="estado" placeholder="Estado" maxlength="50" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" name="cidade" placeholder="Cidade">
+                    </div>
+                    <div class="textfield">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" name="bairro" placeholder="Bairro" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="rua">Rua</label>
+                        <input type="text" name="rua" placeholder="Rua" required>
+                    </div>
+                    <button type="button" id="nextBtnEndereco">Próximo</button>
+                </div>
+                <div id="terceiraParte" style="display: none;">
                     <div class="textfield">
                         <label for="cpf">CPF</label>
                         <input type="text" name="cpf" placeholder="cpf" maxlength="14" required>
@@ -60,7 +83,7 @@
                         <label for="curso">Curso</label>
                         <input type="text" name="curso" placeholder="curso" required>
                     </div>
-                    <button type="submit" class="btn-cadastro-final">Finalizar Cadastro</button>
+                    <button type="submit" id="submitBtn">Finalizar Cadastro</button>
                 </div>
             </form>
         </div>
@@ -68,6 +91,7 @@
 </body>
 </html>
 <script>
+
 function validarEmail(emailFormulario) {
     let validarRegExNoEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailFormulario.match(validarRegExNoEmail)) {
@@ -94,7 +118,6 @@ function validarIdade(dataNascimento) {
     }
     return idade >= 18;
 }
-// Ajuste do Cpf na tela de front 
 document.getElementsByName('cpf')[0].addEventListener('input', function(event) {
     let cpf = event.target.value;
     cpf = cpf.replace(/\D/g, ""); // Remove qualquer coisa que não seja dígito
@@ -103,53 +126,112 @@ document.getElementsByName('cpf')[0].addEventListener('input', function(event) {
     cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Adiciona um hífen depois do nono dígito
     event.target.value = cpf;
 });
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('cep').addEventListener('blur', function(event) {
+        var cep = event.target.value.replace(/\D/g, ''); // Remove tudo o que não é dígito
+        if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!("erro" in data)) { 
+                        document.getElementsByName('rua')[0].value = data.logradouro;
+                        document.getElementsByName('bairro')[0].value = data.bairro;
+                        document.getElementsByName('cidade')[0].value = data.localidade;
+                        document.getElementsByName('estado')[0].value = data.uf;
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                })
+                .catch(() => alert("Não foi possível buscar o CEP."));
+        } else {
+            alert("CEP inválido.");
+        }
+    });
+    var nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            var email = document.getElementsByName('email')[0];
+            var nome = document.getElementsByName('nome')[0];
+            var senha = document.getElementsByName('senha')[0];
+            var confirmar_senha = document.getElementsByName('confirmar_senha')[0];
 
-document.getElementById('nextBtn').addEventListener('click', function(event) {
-    event.preventDefault();
+            email.style.border = '';
+            nome.style.border = '';
+            senha.style.border = '';
+            confirmar_senha.style.border = '';
 
-    var email = document.getElementsByName('email')[0];
-    var nome = document.getElementsByName('nome')[0];
-    var senha = document.getElementsByName('senha')[0];
-    var confirmar_senha = document.getElementsByName('confirmar_senha')[0];
-
-    email.style.border = '';
-    nome.style.border = '';
-    senha.style.border = '';
-    confirmar_senha.style.border = '';
-
-    if (nome.value && validarEmail(email.value) && senha.value && confirmar_senha.value && senha.value === confirmar_senha.value) {
-        document.getElementById('primeiraParte').style.display = 'none';
-
-        document.getElementById('segundaParte').style.display = 'flex';
-    } 
-    else if (senha.value !== confirmar_senha.value) {
-        senha.style.border = '1px solid red';
-        confirmar_senha.style.border = '1px solid red';
-    }
-    
-    else {
-        if (!validarEmail(email.value)) email.style.border = '1px solid red';
-        if (!nome.value) nome.style.border = '1px solid red';
-        if (!senha.value) senha.style.border = '1px solid red';
-        if (!confirmar_senha.value) confirmar_senha.style.border = '1px solid red';
-    }
-});
-
-document.getElementById('submitBtn').addEventListener('click', function(event) {
-    event.preventDefault();
-
-    var cpf = document.getElementsByName('cpf')[0];
-    var dataNascimento = document.getElementsByName('data_nascimento')[0];
-
-    cpf.style.border = '';
-    dataNascimento.style.border = '';
-
-    if (validarCPF(cpf.value) && maiorDe18Anos(dataNascimento.value)) {
-        document.getElementById('form').submit();
+            if (nome.value && validarEmail(email.value) && senha.value && confirmar_senha.value && senha.value === confirmar_senha.value) {
+                document.getElementById('primeiraParte').style.display = 'none';
+                document.getElementById('segundaParte').style.display = 'flex';
+            } else {
+                if (senha.value !== confirmar_senha.value) {
+                    senha.style.border = '1px solid red';
+                    confirmar_senha.style.border = '1px solid red';
+                } else {
+                    if (!validarEmail(email.value)) email.style.border = '1px solid red';
+                    if (!nome.value) nome.style.border = '1px solid red';
+                    if (!senha.value) senha.style.border = '1px solid red';
+                    if (!confirmar_senha.value) confirmar_senha.style.border = '1px solid red';
+                }
+            }
+        });
     } else {
-        // Se o CPF não é válido ou o usuário não é maior de 18 anos, muda a borda para vermelho
-        if (!validarCPF(cpf.value)) cpf.style.border = '1px solid red';
-        if (!validarIdade(dataNascimento.value)) dataNascimento.style.border = '1px solid red';
+        console.error('Element with ID "nextBtn" was not found.');
+    }
+
+    var nextBtnEndereco = document.getElementById('nextBtnEndereco');
+    if (nextBtnEndereco) {
+        nextBtnEndereco.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            var cep = document.getElementsByName('cep')[0];
+            var estado = document.getElementsByName('estado')[0];
+            var cidade = document.getElementsByName('cidade')[0];
+            var bairro = document.getElementsByName('bairro')[0];
+            var rua = document.getElementsByName('rua')[0];
+
+            cep.style.border = '';
+            estado.style.border = '';
+            cidade.style.border = '';
+            bairro.style.border = '';
+            rua.style.border = '';
+
+            if (cep.value && estado.value && cidade.value && bairro.value && rua.value) {
+                document.getElementById('segundaParte').style.display = 'none';
+                document.getElementById('terceiraParte').style.display = 'flex';
+            } else {
+                if (!cep.value) cep.style.border = '1px solid red';
+                if (!estado.value) estado.style.border = '1px solid red';
+                if (!cidade.value) cidade.style.border = '1px solid red';
+                if (!bairro.value) bairro.style.border = '1px solid red';
+                if (!rua.value) rua.style.border = '1px solid red';
+            }
+        });
+    } else {
+        console.error('Element with ID "nextBtnEndereco" was not found.');
+    }
+
+    var submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+        
+            var cpf = document.getElementsByName('cpf')[0];
+            var dataNascimento = document.getElementsByName('data_de_nascimento')[0];
+        
+            cpf.style.border = '';
+            dataNascimento.style.border = '';
+        
+            if (validarCPF(cpf.value) && validarIdade(dataNascimento.value)) {
+                document.getElementById('cadastroForm').submit();
+            } else {
+                if (!validarCPF(cpf.value)) cpf.style.border = '1px solid red';
+                if (!validarIdade(dataNascimento.value)) dataNascimento.style.border = '1px solid red';
+            }
+        });
+    } else {
+        console.error('Element with ID "submitBtn" was not found.');
     }
 });
 </script>
