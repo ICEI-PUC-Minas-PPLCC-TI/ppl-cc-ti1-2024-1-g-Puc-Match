@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 app_name = 'usuarios'
@@ -26,4 +29,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('signup/', views.signup, name='signup'),
-]
+    path('perfil/', views.perfil, name='perfil'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

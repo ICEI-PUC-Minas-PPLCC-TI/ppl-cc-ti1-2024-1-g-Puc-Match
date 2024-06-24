@@ -9,17 +9,27 @@ from django.contrib.auth.models import (
 from datetime import datetime, date
 from django.utils import timezone
 from django.contrib import admin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+
+
 # Create your models here.
 class AccountManager(BaseUserManager):
     def create_user(    
         self,
         email,
         nome,
-        cpf,
+        cpf,   
         data_de_nascimento,
         matricula,
         curso,  # add this
         password=None,
+        cep=None,  
+        cidade=None,
+        estado=None,  
+        bairro=None,  
+        rua=None,
     ):
         # User management
         if not email:
@@ -39,6 +49,11 @@ class AccountManager(BaseUserManager):
             nome=nome,
             password=password,
             data_de_nascimento=data_de_nascimento,
+            cep=cep,
+            cidade=cidade,
+            estado=estado,
+            bairro=bairro,
+            rua=rua,
             cpf=cpf,
             matricula=matricula,
             curso=curso,  # add this
@@ -90,10 +105,17 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     nome = models.CharField(max_length=50)  # Campo Nome
     cpf = models.CharField(max_length=16, unique=True)  # Campo CPF
     matricula = models.IntegerField(unique=True)
+    cep = models.CharField(max_length=9, blank=True, null=True)  # Campo CEP
+    estado = models.CharField(max_length=50, blank=True, null=True)  # Campo Estado
+    cidade = models.CharField(max_length=50, blank=True, null=True)  # Campo Cidade
+    bairro = models.CharField(max_length=50, blank=True, null=True)  # Campo Bairro
+    rua = models.CharField(max_length=50, blank=True, null=True)  # Campo Rua
     curso = models.CharField(max_length=50)  # Campo Curso
     data_de_nascimento = models.DateField(blank=False, null=True)  # Campo Data de Nascimento
     data_criacao = models.DateTimeField(auto_now_add=True)  # Campo Data de Criação
     password = models.CharField(max_length=50)  # Campo Senha
+    
+    
     # Tags
     is_verified = models.BooleanField(default=False)  # Campo Verificado
 
@@ -137,3 +159,43 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
                 < (self.data_nascimento.month, self.data_nascimento.day)
             )
         )
+    
+class Perfil(models.Model):
+    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
+    foto = models.ImageField( upload_to='media/', blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
+    data_de_nascimento = models.DateField(blank=False, null=True)
+
+    @property
+    def idade(self):
+        if self.data_de_nascimento:
+            hoje = datetime.date.today()
+            return hoje.year - self.data_de_nascimento.year - ((hoje.month, hoje.day) < (self.data_de_nascimento.month, self.data_de_nascimento.day))
+        else:
+            return None
+
+        
+    def __str__(self):
+        return f'Perfil de {self.usuario.nome}'
+    
+    
+@receiver(post_save, sender=User)
+def criar_ou_atualizar_perfil_usuario(sender, instance, created, **kwargs):
+    if created:
+        # Ensure the User instance exists in the database.
+        user = Usuarios.objects.filter(pk=instance.pk).first()
+        if user:
+            Perfil.objects.create(usuario=user)
+        else:
+            # Handle the case where the User instance does not exist.
+            # This could involve logging an error or taking corrective action.
+            pass
+    else:
+        # For updating, ensure the Perfil instance is linked to an existing User.
+        if hasattr(instance, 'perfil'):
+            instance.perfil.save()
+        else:
+            # Handle cases where the Perfil does not exist for the User.
+            # This could involve creating a new Perfil or logging an error.
+            pass
+
