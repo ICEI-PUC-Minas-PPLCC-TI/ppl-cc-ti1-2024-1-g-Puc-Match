@@ -1,4 +1,4 @@
-{% load static %} {% block title%} Profile {% endblock %} 
+{% load static %} 
 {% block static%}
 <link rel="stylesheet" href="{% static 'usuarios/profile-page.css' %}">
 {% endblock%}
@@ -9,33 +9,35 @@
 <body>
     <div class="container">
         <h1>Meu Perfil</h1>
-        <img id="profileImage" src="" alt="Foto de Perfil" class="profile-image">
-        <form id="profileForm">
+        {% if foto %}
+            <img id="profileImage" src="{{ foto }}" alt="Foto de perfil" class="profile-image">
+        {% else %}
+            <img id="profileImage"  src="" alt="Foto de perfil padrão" class="profile-image">
+        {% endif %}
+        <form id="profileForm" method="post" action="{% url 'usuarios:perfil' %}" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="photo">Foto de Perfil:</label>
-                <input type="file" id="photo" name="photo" onchange="previewImage()">
+                <input type="file" id="photo" name="foto" onchange="previewImage()">
             </div>
             <div class="form-group">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="">Nome:</label>
+                <label for="name">{{ nome }}</label>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+
             <div class="form-group">
                 <label for="birthdate">Data de Nascimento:</label>
-                <input type="date" id="birthdate" name="birthdate" required>
+                <label for="birthdate">{{ data_de_nascimento }}</label>
             </div>
             <div class="form-group">
-                <label for="bio">Biografia:</label>
-                <textarea id="bio" name="bio" rows="4"></textarea>
+                <label for="descricao">Descrição:</label>
+                <textarea type="text" id="descricao" name="descricao">{{ descricao }}</textarea>
             </div>
             <button type="submit">Salvar</button>
         </form>
     </div>
-    
-    <script>
+</body>
+<script>
         function previewImage() {
             const fileInput = document.getElementById('photo');
             const profileImage = document.getElementById('profileImage');
