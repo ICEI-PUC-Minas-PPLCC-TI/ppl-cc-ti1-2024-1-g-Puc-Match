@@ -6,7 +6,7 @@ from django.contrib.auth.models import (
     Group,                                                                                                                                                                                                                                                                                                                                                                      
     Permission
 )
-from datetime import datetime, date
+from datetime import date
 from django.utils import timezone
 from django.contrib import admin
 from django.db.models.signals import post_save
@@ -160,20 +160,32 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
             )
         )
     
-class Perfil(models.Model):
+class Perfil(models.Model):     
     usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
-    foto = models.ImageField( upload_to='media/', blank=True, null=True)
+    foto = models.ImageField(upload_to='media/', blank=True, null=True)
     descricao = models.TextField(blank=True, null=True)
+    SEXUALIDADE_CHOICES = [
+        ('M', 'masculino'),
+        ('F', 'feminino'),
+        ('A', 'ambos'),
+        ('N', 'nada')
+    ]
+    sexualidade = models.CharField(max_length=1, choices=SEXUALIDADE_CHOICES, default='N')
     data_de_nascimento = models.DateField(blank=False, null=True)
 
-    @property
     def idade(self):
         if self.data_de_nascimento:
-            hoje = datetime.date.today()
-            return hoje.year - self.data_de_nascimento.year - ((hoje.month, hoje.day) < (self.data_de_nascimento.month, self.data_de_nascimento.day))
+            hoje = date.today()
+            nascimento = self.data_de_nascimento
+            idade = hoje.year - nascimento.year - ((hoje.month, hoje.day) < (nascimento.month, nascimento.day))
+            return idade
         else:
             return None
-
+        
+    def foto_url_modificado(self):
+        if self.foto:
+            return f"/usuarios{self.foto.url}"
+        return None
         
     def __str__(self):
         return f'Perfil de {self.usuario.nome}'
@@ -199,3 +211,32 @@ def criar_ou_atualizar_perfil_usuario(sender, instance, created, **kwargs):
             # This could involve creating a new Perfil or logging an error.
             pass
 
+class Like(models.Model):
+        
+    usuario_que_deu_like = models.ForeignKey(Usuarios, related_name='likes_dados', on_delete=models.CASCADE)
+    usuario_que_recebeu_like = models.ForeignKey(Usuarios, related_name='likes_recebidos', on_delete=models.CASCADE)
+    data_like = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('usuario_que_deu_like', 'usuario_que_recebeu_like')
+
+def verificar_match(usuario1, usuario2):
+    # Verifica se ambos os usuários deram "like" um no outro
+    match_usuario1_para_usuario2 = Like.objects.filter(usuario_que_deu_like=usuario1, usuario_que_recebeu_like=usuario2).exists()
+    match_usuario2_para_usuario1 = Like.objects.filter(usuario_que_deu_like=usuario2, usuario_que_recebeu_like=usuario1).exists()
+
+    return match_usuario1_para_usuario2 and match_usuario2_para_usuario1
+
+def obter_usuarios_para_apresentacao(usuario):
+    # Primeiro, encontre todos os usuários que deram "like" no usuário atual e que o usuário atual também deu "like"
+    matches = Usuarios.objects.filter(
+        likes_recebidos__usuario_que_deu_like=usuario,
+        likes_dados__usuario_que_recebeu_like=usuario
+    ).distinct()
+
+    # Em seguida, encontre outros usuários, excluindo os matches já encontrados
+    outros_usuarios = Usuarios.objects.exclude(id=usuario.id).exclude(id__in=matches).order_by('?')  # Ordena aleatoriamente
+
+    # Combina os dois querysets, priorizando matches
+    usuarios_para_apresentacao = list(matches) + list(outros_usuarios)
+
+    return usuarios_para_apresentacao

@@ -31,3 +31,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('perfil/', views.perfil, name='perfil'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Adicione esta configuração ao final do arquivo urls.py principal
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

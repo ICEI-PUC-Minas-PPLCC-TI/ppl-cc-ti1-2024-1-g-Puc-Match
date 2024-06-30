@@ -1,8 +1,13 @@
 {% load static %} 
 {% block static %}
 <link rel="stylesheet" href="{% static 'usuarios/plataforma.css' %}"> 
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<meta name="csrf-token" content="{{ csrf_token }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 {% endblock %}
 {% block content %}
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,6 +43,133 @@
             </div>
         </nav>
     </header>
-</body>
+    <main>
+        <div class="container-image">
+            <div class="container-images">
+                {% for perfil in perfis %}
+                <form action="{% url 'usuarios:plataforma' %}" method="POST" class="perfil-form" data-action-url="{% url 'usuarios:plataforma' %}" id="perfil-{{ perfil.usuario.id }}">
+                    {% csrf_token %}
+                    <figure class="figure" id="perfil-{{ perfil.usuario.id }}" >
+                        {% if perfil.foto %}
+                        <img src="{{ perfil.foto_url_modificado }}" alt="Foto de perfil" class="figure-img">
+                        {% else %}
+                        <img src="" alt="Default Image">
+                        {% endif %}
+                        <div class="centered-text">
+                            <div class="blur-background">
+                                <h4>{{ perfil.usuario.nome }}</h4>
+                                <p>{{ perfil.idade }}</p>
+                                <p>{{ perfil.descricao }}</p>
+                            </div>
+                        </div>
+                        <figcaption class="figure-caption">
+                            <button class="like" type="button" data-perfil-id="{{ perfil.usuario.id }}" data-acao="like">
+                                <i class="ph ph-heart"></i> Like
+                            </button>
+                            <button class="dislike" type="button" data-perfil-id="{{ perfil.usuario.id }}" data-acao="dislike">
+                                <i class="ph ph-x"></i> Dislike
+                            </button>
+                        </figcaption>
+                        <input type="hidden" name="perfilId" value="{{ perfil.usuario.id }}">
+                    </figure>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+  </body>
 </html>
+<script>
+    document.querySelectorAll('.like, .dislike').forEach(button => {
+        button.addEventListener('click', function() {
+            const form = this.closest('.perfil-form');
+            const actionUrl = form.getAttribute('action'); // Certifique-se de que o 'action' está definido corretamente no formulário HTML
+            const csrfToken = form.querySelector('[name="csrfmiddlewaretoken"]').value;
+            const perfilId = this.getAttribute('data-perfil-id');
+            const acao = this.getAttribute('data-acao');
+    
+            const formData = new FormData();
+            formData.append('csrfmiddlewaretoken', csrfToken);
+            formData.append('perfilId', perfilId);
+            formData.append('acao', acao);
+    
+            console.log('Enviando requisição para:', actionUrl);
+            console.log('Dados do formulário:', formData);
+    
+            fetch(actionUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta do servidor:', data);
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    // Remove o perfil do DOM
+                    const perfilElement = document.getElementById(`perfil-${perfilId}`);
+                    if (perfilElement) {
+                        perfilElement.remove();
+                        console.log('Perfil removido do DOM.');
+
+                    ajustarExibicaoPerfis();
+
+                    } else {
+                        console.error(`Elemento #perfil-${perfilId} não encontrado no DOM.`);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao enviar requisição:', error);
+            });
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    ajustarExibicaoPerfis();
+});
+
+function ajustarExibicaoPerfis() {
+    const perfis = document.querySelectorAll('.figure');
+
+    // Primeiro, esconde todos os perfis
+    perfis.forEach(perfil => {
+        perfil.style.display = 'none';
+    });
+
+    // Determina quais perfis devem ser exibidos
+    let indicesParaExibir;
+    if (perfis.length <= 3) {
+        // Se houver 3 ou menos perfis, todos serão exibidos
+        indicesParaExibir = Array.from({length: perfis.length}, (_, i) => i);
+    } else {
+        // Calcula os índices dos 3 perfis centrais para exibição
+        const meio = Math.floor(perfis.length / 2);
+        indicesParaExibir = [meio - 1, meio, meio + 1];
+    }
+
+    // Aplica desfoque e exibe os perfis conforme necessário
+    perfis.forEach((perfil, index) => {
+        if (indicesParaExibir.includes(index)) {
+            perfil.style.display = ''; // Exibe o perfil
+            // Aplica desfoque nos perfis das pontas (primeiro e último dos três)
+            if (index === indicesParaExibir[0] || index === indicesParaExibir[indicesParaExibir.length - 1]) {
+                perfil.classList.add('blur-effect');
+                perfil.querySelectorAll('.like, .dislike').forEach(botao => botao.disabled = true);
+            } else {
+                perfil.classList.remove('blur-effect');
+                perfil.querySelectorAll('.like, .dislike').forEach(botao => botao.disabled = false);
+            }
+        }
+    });
+}
+</script>
+
+    
+
 {% endblock %}

@@ -12,7 +12,7 @@
         {% if foto %}
             <img id="profileImage" src="{{ foto }}" alt="Foto de perfil" class="profile-image">
         {% else %}
-            <img id="profileImage"  src="" alt="Foto de perfil padrão" class="profile-image">
+            <img id="profileImage"  src="{% static 'usuarios/profile_image_fixa.png' %}" alt="Foto de perfil padrão" class="profile-image">
         {% endif %}
         <form id="profileForm" method="post" action="{% url 'usuarios:perfil' %}" enctype="multipart/form-data">
             {% csrf_token %}
@@ -21,10 +21,9 @@
                 <input type="file" id="photo" name="foto" onchange="previewImage()">
             </div>
             <div class="form-group">
-                <label for="">Nome:</label>
+                <label for="name">Nome:</label>
                 <label for="name">{{ nome }}</label>
             </div>
-
             <div class="form-group">
                 <label for="birthdate">Data de Nascimento:</label>
                 <label for="birthdate">{{ data_de_nascimento }}</label>
@@ -33,7 +32,17 @@
                 <label for="descricao">Descrição:</label>
                 <textarea type="text" id="descricao" name="descricao">{{ descricao }}</textarea>
             </div>
-            <button type="submit">Salvar</button>
+            <!-- Novo campo para a sexualidade -->
+            <div class="form-group">
+                <label for="sexo">Sexualidade:</label>
+                <select id="sexo" name="sexo" class="form-control">
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                    <option value="A">Ambos</option>
+                    <option value="NADA">Nenhum display</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
     </div>
 </body>
